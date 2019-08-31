@@ -19,31 +19,54 @@ const shuffle = _array => {
   return array
 }
 
+const random = (value) => ~~(Math.random() * value)
+const randomColor = () => `#${Math.floor(Math.random()*16777215).toString(16)}`
+
 const bodyStyle = `
 body {
   width: 100vw;
   height: 100vh;
+  margin: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: black;
 }`
 
 const containerStyle = `
 #container {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 5px;
 }`
 
 const charStyle = (id, index) => `
 span#${id} {
   order: ${index};
+  animation: anime-${id} 1s ease ${random(1000)}ms infinite alternate;
+  will-change: transform;
+}
+@keyframes anime-${id} {
+  0% {
+    font-size: ${random(10) + 15}px;
+    color: ${randomColor()}; opacity: 0;
+    transform: translate3d(${random(10) - 5}px, ${random(10) - 5}px, ${random(10) - 5}px) rotate(${random(60) - 30}deg);
+  }
+  100% {
+    font-size: ${random(10) + 15}px;
+    color: ${randomColor()}; opacity: 1;
+    transform: translate3d(${random(10) - 5}px, ${random(10) - 5}px, ${random(10) - 5}px) rotate(${random(60) - 30}deg);
+  }
 }`
 
 const formStyle = `
 form {
   display: flex;
   flex-direction: row;
+  user-select: none;
 }`
 
 const renderToString = password => {
