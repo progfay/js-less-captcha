@@ -1,0 +1,25 @@
+{
+  "name": "js-less-cert",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/progfay/js-less-cert.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/progfay/js-less-cert/issues"
+  },
+  "homepage": "https://github.com/progfay/js-less-cert#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "uuid": "^3.3.3"
+  }
+}
