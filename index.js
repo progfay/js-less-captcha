@@ -22,7 +22,25 @@ const shuffle = _array => {
 const random = (value) => ~~(Math.random() * value)
 const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`
 
-const bodyStyle = `
+const minifyHTML = (html, ...values) => (
+  (html.raw ? String.raw(html, ...values) : html)
+    .replace(/\s*\n\s*/gm, '')
+    .replace(/\s+</g, '<')
+    .replace(/>\s+/g, '>')
+)
+
+const minifyCSS = (css, ...values) => (
+  (css.raw ? String.raw(css, ...values) : css)
+    .replace(/\s*\n\s*/gm, '')
+    .replace(/,\s+/g, ',')
+    .replace(/:\s+/g, ':')
+    .replace(/\s*;\s*/g, ';')
+    .replace(/\s*\{\s*/g, '{')
+    .replace(/\s*\}\s*/g, '}')
+    .replace(/;\}/g, '}')
+)
+
+const bodyStyle = minifyCSS`
 body {
   width: 100vw;
   height: 100vh;
@@ -34,7 +52,7 @@ body {
   background: black;
 }`
 
-const containerStyle = `
+const containerStyle = minifyCSS`
 #container {
   display: flex;
   flex-direction: row;
@@ -43,7 +61,7 @@ const containerStyle = `
   letter-spacing: 5px;
 }`
 
-const charStyle = (id, index) => `
+const charStyle = (id, index) => minifyCSS`
 span#${id} {
   order: ${index};
   animation: anime-${id} 1s ease ${random(1000)}ms infinite alternate;
@@ -62,7 +80,7 @@ span#${id} {
   }
 }`
 
-const formStyle = `
+const formStyle = minifyCSS`
 form {
   display: flex;
   flex-direction: row;
@@ -71,10 +89,28 @@ form {
 
 const renderToString = password => {
   const idList = new Array(password.length).fill(0).map(_ => `char-${uuid()}`)
-  const style = bodyStyle + containerStyle + idList.map(charStyle).join('\n') + formStyle
-  const chars = shuffle(password.split('').map((char, index) => `<span id="${idList[index]}">${char}</span>`)).join('')
-  const form = '<form action="/cert" method="post"><div><input name="pass"></div><button>Certificate</button></form>'
-  return `<head><style>${style}</style></head><body><p id="container">${chars}</p>${form}</body>`
+  const style = bodyStyle + containerStyle + idList.map(charStyle).join('') + formStyle
+  const chars = shuffle(password.split('').map((char, index) => minifyHTML`
+    <span id="${idList[index]}"> ${char} </span>
+  `)).join('')
+  const form = minifyHTML`
+    <form action="/cert" method="post">
+      <div<button>
+        <input name="pass">
+      </div>
+      <button> Certificate </button>
+    </form>
+  `
+
+  return minifyHTML`
+    <head>
+      <style> ${style} </style>
+    </head>
+    <body>
+      <p id="container"> ${chars} </p>
+      ${form}
+    </body>
+  `
 }
 
 let PASSWORD = uuid()
