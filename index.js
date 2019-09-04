@@ -64,10 +64,10 @@ const containerStyle = minifyCSS`
 }`
 
 const charStyle = (id, index) => minifyCSS`
-span#${id} {
+#${id} {
   order: ${index};
   animation: anime-${id} 1s ease ${random(1000)}ms infinite alternate;
-  will-change: transform;
+  will-change: font-size, color, transform;
 }
 @keyframes anime-${id} {
   0% {
@@ -90,7 +90,7 @@ form {
 }`
 
 const renderToString = password => {
-  const idList = new Array(password.length).fill(0).map(_ => `char-${uuid()}`)
+  const idList = new Array(password.length).fill(0).map(_ => `c-${uuid().slice(0, 8)}`)
   const style = bodyStyle + containerStyle + idList.map(charStyle).join('') + formStyle
   const chars = shuffle(password.split('').map((char, index) => minifyHTML`
     <span id="${idList[index]}"> ${char} </span>
