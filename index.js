@@ -10,7 +10,7 @@ const FLAG = 'flag{**********}'
 
 const shuffle = _array => {
   const array = [..._array]
-  for(let i = array.length - 1; i > 0; i--){
+  for (let i = array.length - 1; i > 0; i--) {
     let r = Math.floor(Math.random() * (i + 1))
     let tmp = array[i]
     array[i] = array[r]
@@ -20,7 +20,7 @@ const shuffle = _array => {
 }
 
 const random = (value) => ~~(Math.random() * value)
-const randomColor = () => `#${Math.floor(Math.random()*16777215).toString(16)}`
+const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`
 
 const bodyStyle = `
 body {
