@@ -98,20 +98,26 @@ const renderToString = password => {
   const form = minifyHTML`
     <form action="/cert" method="post">
       <div<button>
-        <input name="pass">
+        <input aria-label="pass" name="pass">
       </div>
-      <button> Certificate </button>
+      <button> Certify </button>
     </form>
   `
 
   return minifyHTML`
-    <head>
-      <style> ${style} </style>
-    </head>
-    <body>
-      <p id="container"> ${chars} </p>
-      ${form}
-    </body>
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <title> js-less cert </title>
+        <style> ${style} </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="Description" content="Please enter what you see, and certify.">
+      </head>
+      <body>
+        <p id="container"> ${chars} </p>
+        ${form}
+      </body>
+    </html>
   `
 }
 
