@@ -99,6 +99,7 @@ const renderToString = password => {
     <form action="/cert" method="post">
       <div<button>
         <input aria-label="pass" name="pass">
+        <input type="hidden" name="timestamp" value="${TIMESTAMP}">
       </div>
       <button> Certify </button>
     </form>
@@ -121,10 +122,12 @@ const renderToString = password => {
   `
 }
 
+let TIMESTAMP = Math.floor(new Date().getTime() / 1000).toString()
 let PASSWORD = uuid()
 let HTML = renderToString(PASSWORD)
 
 setInterval(() => {
+  TIMESTAMP = Math.floor(new Date().getTime() / 1000).toString()
   PASSWORD = uuid()
   HTML = renderToString(PASSWORD)
 }, 3000)
@@ -134,7 +137,17 @@ app.get('/', (req, res) => {
 })
 
 app.post('/cert', (req, res) => {
-  const { pass } = req.body
+  const { pass, timestamp } = req.body
+  if (!pass || !timestamp) {
+    res.status(401).send('Body parameter: pass, timestamp is required')
+    return
+  }
+
+  if (TIMESTAMP !== timestamp) {
+    res.status(401).send('Expired certification')
+    return
+  }
+
   if (PASSWORD === pass) {
     res.status(200).send(`Congrats! flag: ${FLAG}`)
   } else {
