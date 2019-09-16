@@ -42,6 +42,13 @@ const minifyCSS = (css, ...values) => (
     .replace(/;\}/g, '}')
 )
 
+const globalStyle = minifyCSS`
+* {
+  margin: 0;
+  padding: 0;
+}
+`
+
 const bodyStyle = minifyCSS`
 body {
   width: 100vw;
@@ -52,10 +59,14 @@ body {
   justify-content: center;
   align-items: center;
   background: black;
+  overscroll-behavior: none;
 }`
 
 const containerStyle = minifyCSS`
 #container {
+  width: 100vw;
+  height: 40vh;
+  margin-top: 20vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -83,25 +94,45 @@ const charStyle = (id, index) => minifyCSS`
 }`
 
 const formStyle = minifyCSS`
-form {
+form#cert {
+  width: 100vw;
+  height: 20vh;
+  margin-bottom: 20vh;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: row;
   user-select: none;
-}`
+}
+input#pass {
+  box-sizing: border-box;
+  height: 3vmin;
+}
+div#submit {
+  width: 2.5vmin;
+  height: 2.5vmin;
+  margin-left: 1vmin;
+  border: 1px solid white;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+}
+`
 
 const renderToString = password => {
   const idList = new Array(password.length).fill(0).map(_ => `c-${uuid().slice(0, 8)}`)
-  const style = bodyStyle + containerStyle + idList.map(charStyle).join('') + formStyle
+  const style = [globalStyle, bodyStyle, containerStyle, ...idList.map(charStyle), formStyle].join('')
   const chars = shuffle(password.split('').map((char, index) => minifyHTML`
     <span id="${idList[index]}"> ${char} </span>
   `)).join('')
   const form = minifyHTML`
-    <form action="/cert" method="post">
-      <div<button>
-        <input aria-label="pass" name="pass">
+    <form id="cert" action="/cert" method="post">
+      <div>
+        <input id="pass" aria-label="pass" name="pass">
         <input type="hidden" name="timestamp" value="${TIMESTAMP}">
       </div>
-      <button> Certify </button>
+      <div id="submit" onclick="document.getElementById('cert').submit()"> → </div>
     </form>
   `
 
