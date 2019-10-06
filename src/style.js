@@ -54,7 +54,7 @@ module.exports.charStyle = (id, index) => minifyCSS`
 }`
 
 module.exports.formStyle = minifyCSS`
-form#cert {
+form#captcha {
   width: 100vw;
   height: 20vh;
   margin-bottom: 20vh;

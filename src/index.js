@@ -22,10 +22,10 @@ setInterval(() => {
 
 app.get('/', (req, res) => { res.status(200).send(HTML) })
 
-app.post('/cert', (req, res) => {
+app.post('/captcha', (req, res) => {
   const { pass, timestamp } = req.body
   if (!pass || !timestamp) return res.status(401).send('Body parameter: pass, timestamp is required')
-  if (TIMESTAMP !== timestamp) return res.status(401).send('Expired certification')
+  if (TIMESTAMP !== timestamp) return res.status(401).send('Expired timestamp, enter within 3 seconds')
   if (PASSWORD !== pass) return res.sendStatus(401).send('Wrong password')
   return res.status(200).send(`Congrats! flag: ${FLAG}`)
 })

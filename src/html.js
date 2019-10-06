@@ -13,19 +13,19 @@ module.exports = (password, timestamp) => {
     <!DOCTYPE html>
     <html lang="en">
       <head>
-        <title> js-less cert </title>
+        <title> js-less CAPTCHA </title>
         <style> ${style} </style>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="Description" content="Please enter what you see, and certify.">
+        <meta name="Description" content="Please enter what you see, and pass CAPTCHA.">
       </head>
       <body class="align-center">
         <p id="container" class="align-center"> ${chars} </p>
-        <form id="cert" class="align-center" action="/cert" method="post">
+        <form id="captcha" class="align-center" action="/captcha" method="post">
           <div class="align-center">
             <input id="pass" aria-label="pass" name="pass">
             <input type="hidden" name="timestamp" value="${timestamp}">
           </div>
-          <div id="submit" onclick="document.getElementById('cert').submit()"> → </div>
+          <div id="submit" onclick="document.getElementById('captcha').submit()"> → </div>
         </form>
       </body>
     </html>

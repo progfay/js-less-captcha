@@ -16,7 +16,7 @@ fetch('http://localhost:3000')
       .join('')
   }))
   .then(({ timestamp, pass }) => fetch(
-    'http://localhost:3000/cert',
+    'http://localhost:3000/captcha',
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
