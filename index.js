@@ -104,19 +104,25 @@ form#cert {
   flex-direction: row;
   user-select: none;
 }
+div#outer-pass {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 input#pass {
   box-sizing: border-box;
-  height: 3vmin;
+  height: 2.5vmin;
 }
 div#submit {
   width: 2.5vmin;
-  height: 2.5vmin;
+  line-height: 2.5vmin;
   margin-left: 1vmin;
   border: 1px solid white;
   border-radius: 50%;
   text-align: center;
   vertical-align: middle;
   color: white;
+  font-size: 2vmin;
 }
 `
 
@@ -128,7 +134,7 @@ const renderToString = password => {
   `)).join('')
   const form = minifyHTML`
     <form id="cert" action="/cert" method="post">
-      <div>
+      <div id="outer-pass">
         <input id="pass" aria-label="pass" name="pass">
         <input type="hidden" name="timestamp" value="${TIMESTAMP}">
       </div>
