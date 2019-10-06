@@ -49,15 +49,20 @@ const globalStyle = minifyCSS`
 }
 `
 
+const alignCenterStyle = minifyCSS`
+.align-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+`
+
 const bodyStyle = minifyCSS`
 body {
   width: 100vw;
   height: 100vh;
   margin: 0;
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background: black;
   overscroll-behavior: none;
 }`
@@ -67,10 +72,7 @@ const containerStyle = minifyCSS`
   width: 100vw;
   height: 40vh;
   margin-top: 20vh;
-  display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
   letter-spacing: 5px;
 }`
 
@@ -98,16 +100,8 @@ form#cert {
   width: 100vw;
   height: 20vh;
   margin-bottom: 20vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: row;
   user-select: none;
-}
-div#outer-pass {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 input#pass {
   box-sizing: border-box;
@@ -128,13 +122,13 @@ div#submit {
 
 const renderToString = password => {
   const idList = new Array(password.length).fill(0).map(_ => `c-${uuid().slice(0, 8)}`)
-  const style = [globalStyle, bodyStyle, containerStyle, ...idList.map(charStyle), formStyle].join('')
+  const style = [globalStyle, alignCenterStyle, bodyStyle, containerStyle, ...idList.map(charStyle), formStyle].join('')
   const chars = shuffle(password.split('').map((char, index) => minifyHTML`
     <span id="${idList[index]}"> ${char} </span>
   `)).join('')
   const form = minifyHTML`
-    <form id="cert" action="/cert" method="post">
-      <div id="outer-pass">
+    <form id="cert" class="align-center" action="/cert" method="post">
+      <div class="align-center">
         <input id="pass" aria-label="pass" name="pass">
         <input type="hidden" name="timestamp" value="${TIMESTAMP}">
       </div>
@@ -151,8 +145,8 @@ const renderToString = password => {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="Description" content="Please enter what you see, and certify.">
       </head>
-      <body>
-        <p id="container"> ${chars} </p>
+      <body class="align-center">
+        <p id="container" class="align-center"> ${chars} </p>
         ${form}
       </body>
     </html>
