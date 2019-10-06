@@ -14,7 +14,7 @@ fetch('http://localhost:3000')
       .sort((a, b) => a[0] - b[0])
       .map(v => v[1])
       .join('')
-    }))
+  }))
   .then(({ timestamp, pass }) => fetch(
     'http://localhost:3000/cert',
     {
