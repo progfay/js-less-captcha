@@ -1,7 +1,9 @@
 const fetch = require('node-fetch')
 const { JSDOM } = require('jsdom')
 
-fetch('http://localhost:3000')
+const ENDPOINT = 'http://localhost:3000'
+
+fetch(ENDPOINT)
   .then(response => response.text())
   .then(html => new JSDOM(html))
   .then(({ window }) => ({
@@ -16,7 +18,7 @@ fetch('http://localhost:3000')
       .join('')
   }))
   .then(({ timestamp, pass }) => fetch(
-    'http://localhost:3000/captcha',
+    `${ENDPOINT}/captcha`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
